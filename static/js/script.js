@@ -127,44 +127,32 @@
     },
     renderFilter: function(data) {
       console.log(data);
-      // data.map(function(fil) {
-      //   console.log(fil.Adres);
-      //
-      //   var content = {
-      //     Id: fil.Id,
-      //     GlobalId: fil.GlobalId,
-      //     FotoLarge: fil.FotoLarge,
-      //     Adres: fil.Adres,
-      //     Postcode: fil.Postcode,
-      //     Woonplaats: fil.Woonplaats,
-      //     AantalKamers: fil.AantalKamers,
-      //     Koopprijs: fil.Koopprijs
-      //   }
-      //
-      //
-      //   var source = document.getElementById('filterTemplate').innerHTML;
-      //   var template = Handlebars.compile(source);
-      //   var htmlCollection = template(content);
-      //   console.log(htmlCollection);
-      //
-      //   el.queryResult.innerHTML = htmlCollection;
-      //
-      // })
+      var htmlCollection;
       var source = document.getElementById('filterTemplate').innerHTML;
       var template = Handlebars.compile(source);
-      var htmlCollection = template(data);
-      console.log(htmlCollection);
+      
+      data.map(function(fil) {
+        console.log(fil.Adres);
+
+
+        var content = {
+          Id: fil.Id,
+          GlobalId: fil.GlobalId,
+          FotoLarge: fil.FotoLarge,
+          Adres: fil.Adres,
+          Postcode: fil.Postcode,
+          Woonplaats: fil.Woonplaats,
+          AantalKamers: fil.AantalKamers,
+          Koopprijs: fil.Koopprijs
+        }
+
+        htmlCollection = template(content);
+        console.log(htmlCollection)
+      })
+
+
 
       el.queryResult.innerHTML = htmlCollection;
-
-
-
-      // var source = document.getElementById('filterTemplate').innerHTML;
-      // var template = Handlebars.compile(source);
-      // var htmlCollection = template(data);
-      // console.log(htmlCollection);
-      //
-      // el.queryResult.innerHTML = htmlCollection;
     },
     renderError: function() {
       var source = document.getElementById('errorTemplate').innerHTML;

@@ -61,7 +61,6 @@
         {{/each}}
     </script>
     <script id="filterTemplate" type="text/x-handlebars-template">
-      {{#each data}}
         <div class="house-item" id={{Id}}>
           <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
           <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
@@ -69,7 +68,6 @@
           <p>Aantal kamers: {{AantalKamers}}</p>
           <p><strong>€ {{Koopprijs}}</strong></p>
         </div>
-      {{/each}}
     </script>
 
     <script id="errorTemplate" type="text/x-handlebars-template">
