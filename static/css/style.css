@@ -28,7 +28,7 @@ li {
 }
 
 li a {
-  margin-right: 1em;
+  margin-right: 10vw;
   color: white;
 }
 
@@ -49,7 +49,7 @@ header {
 
 .logo {
   width: 6.5em;
-  margin-left: 1em;
+  margin-left: 10vw;
 }
 
 .silhouette {
@@ -193,7 +193,10 @@ img+p {
   white-space: pre-wrap;
 }
 
-
+/*removes extremely ugly yellowish color from autocomplete states*/
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
 
 @media (max-width: 638px) {
   .info p {

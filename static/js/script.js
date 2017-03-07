@@ -40,12 +40,11 @@
   var getData = {
     search: function(){
       var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
-      var rooms = [];
-
         console.log(userQuery);
         //makes sure api url has the right userquery and adds the value of the selected option
         var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery +'/&page=1&pagesize=25';
-        // GET data for applied filter
+        var self = this;
+
         console.log(apiUrl);
         aja()
         .url(apiUrl)
@@ -59,7 +58,7 @@
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
-          sections.renderDetail(data);
+            self.filter(data); // initiates the filter
         })
     .go()
   },
@@ -67,7 +66,7 @@
   detail: function(id) {
       //makes sure api url has the right userquery and adds the value of the selected option
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
-      // GET data for applied filter
+
       console.log(apiUrl);
       aja()
       .url(apiUrl)
@@ -77,10 +76,31 @@
         // this calls renderSearch and changes the html according to the applied filter
         sections.renderDetail(data);
       })
-  .go()
-  },
+      .go()
+    },
 
-  filter: function(){
+  filter: function(data){
+    console.log(data)
+    function getFilters(check) {
+      return check.AantalKamers > 3;
+    }
+    var filterData = data.Objects.filter(getFilters);
+    el.queryResult.innerHTML = filterData;
+    console.log(filterData);
+
+    var arr = [];
+    filterData.map(function(all){
+      arr.push(all);
+    })
+    // // reduce array to single object
+    // var filtered = arr.reduce(function(acc, cur, i) {
+    //   acc[i] = cur;
+    //   return acc;
+    // }, {});
+    // console.log(filtered);
+
+    sections.renderFilter(filterData);
+
   }
 };
 
@@ -93,6 +113,7 @@
       var htmlCollection = template(data);
 
       el.queryResult.innerHTML = htmlCollection;
+
       //checks when search results are rendered, if a media-item is clicked.
       var mediaItem = document.querySelectorAll('.house-item');
       mediaItem.forEach(function(get) {
@@ -103,17 +124,55 @@
           getData.detail(this.id);
         })
       })
-
     },
+    renderFilter: function(data) {
+      console.log(data);
+      // data.map(function(fil) {
+      //   console.log(fil.Adres);
+      //
+      //   var content = {
+      //     Id: fil.Id,
+      //     GlobalId: fil.GlobalId,
+      //     FotoLarge: fil.FotoLarge,
+      //     Adres: fil.Adres,
+      //     Postcode: fil.Postcode,
+      //     Woonplaats: fil.Woonplaats,
+      //     AantalKamers: fil.AantalKamers,
+      //     Koopprijs: fil.Koopprijs
+      //   }
+      //
+      //
+      //   var source = document.getElementById('filterTemplate').innerHTML;
+      //   var template = Handlebars.compile(source);
+      //   var htmlCollection = template(content);
+      //   console.log(htmlCollection);
+      //
+      //   el.queryResult.innerHTML = htmlCollection;
+      //
+      // })
+      var source = document.getElementById('filterTemplate').innerHTML;
+      var template = Handlebars.compile(source);
+      var htmlCollection = template(data);
+      console.log(htmlCollection);
 
+      el.queryResult.innerHTML = htmlCollection;
+
+
+
+      // var source = document.getElementById('filterTemplate').innerHTML;
+      // var template = Handlebars.compile(source);
+      // var htmlCollection = template(data);
+      // console.log(htmlCollection);
+      //
+      // el.queryResult.innerHTML = htmlCollection;
+    },
     renderError: function() {
       var source = document.getElementById('errorTemplate').innerHTML;
       var template = Handlebars.compile(source);
       var errorHTML = template();
 
       el.error.innerHTML = errorHTML;
-},
-
+    },
     renderDetail: function(data) {
       //this is the script template in the html
       var source = document.getElementById('detailTemplate').innerHTML;
@@ -122,7 +181,6 @@
 
       el.detailSection.innerHTML = htmlDetail;
     },
-
     toggle: function(route) {
       //selects all sections in the document
       var section = document.querySelectorAll('section');
@@ -140,7 +198,7 @@
         }
       });
     }
-  }
+  };
 
   app.init();
 
