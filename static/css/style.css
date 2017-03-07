@@ -1,3 +1,146 @@
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #E6F2F7;
+}
+
+a {
+    text-decoration: none;
+    color: #0071B3;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+p {
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/*nav*/
+li {
+  list-style-type: none;
+}
+
+li a {
+  margin-right: 1em;
+  color: white;
+}
+
+
+.house-item img {
+    width: 100%;
+}
+
+header {
+  background: #F7A100;
+  width: 100vw;
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 6.5em;
+  margin-left: 1em;
+}
+
+.silhouette {
+  height: 13.5em;
+  background: url(../../img/eengezins-silhouet.svg) no-repeat right top;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.houseill {
+  height: 13.5em;
+  background: url(../../img/eengezins-rechts.svg) no-repeat right top;
+  width: 80vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -13.5em;
+}
+
+.search-field {
+    min-height: 10em;
+    max-width: 100vw;
+    width: 80vw;
+    align-self: center;
+    background: #F7A100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+  padding: 0.688em 1em;
+  box-sizing: border-box;
+  width: 50%;
+  flex-grow: 1;
+  border: none;
+}
+
+input[type="text"] {
+  padding-left: 0.7em;
+  height: 2.750em;
+  font-size: 1em;
+  min-width: 20em;
+}
+
+form.column {
+  display: flex;
+  width: 100%;
+  padding: 1.5em;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+button[type="submit"] {
+    background-color: #0071B3;
+    color: white;
+    border: none;
+    font-size: 1em;
+    width: 50%;
+    flex-grow: 1;
+    min-width: 20em;
+    height: 2.75em;
+}
+
+.fundaSearch {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+article#queryResult {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+.house-item {
+    width: 30vw;
+    background: white;
+    padding: .5em;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    min-width: 16em;
+}
+
+
 .hide {
   display: none;
 }

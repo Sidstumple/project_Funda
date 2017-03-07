@@ -7,29 +7,42 @@
       <meta name="description" content="Funda">
       <meta name="author" content="Cyd Stumpel">
       <link rel="stylesheet" href="static/css/style.css"/>
+      <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
   </head>
   <body>
-    <section class="fundaSearch" id="search" >
-            <div class="search-field">
-               <h1>Zoek een huis:</h1>
-                <p>Voer een zoekterm in & druk op enter:</p>
-                <form class="column" id="getUserQuery">
-                    <input type="text" id="user-input-field" autofocus required>
-                </form>
+    <header>
+      <img src="img/fundawonen-logo.svg" class="logo">
+      <nav>
+        <ul>
+          <li><a href="#search">Search</a></li>
+        </ul>
+      </nav>
+    </header>
 
-                <button type="button" name="button" id="button">filter</button>
-            </div>
+      <section class="fundaSearch" id="search" >
+        </div>
+        <div class="silhouette"></div>
+        <div class="houseill"></div>
+        <div class="search-field">
+          <form class="column" id="getUserQuery">
+            <input type="text" id="user-input-field" placeholder="Plaats, buurt, adres etc." autofocus required>
+            <button type="submit" name="button">Zoek</button>
+          </form>
+        </div>
 
-            <article id="queryResult">
+        <article id="queryResult">
 
-            </article>
+        </article>
 
-            <div id=error></div>
-        </section>
+        <div id=error></div>
+
+      </section>
+
 
         <section id="detail">
             <article id="detailHome"></article>
         </section>
+
 
     <script src="static/js/routie.min.js"></script>
     <script src="static/js/aja.min.js"></script>
@@ -39,9 +52,11 @@
     <script id="searchTemplate" type="text/x-handlebars-template">
         {{#each Objects}}
                 <div class="house-item" id={{GlobalId}}>
-                    <h1><a href= '#search/{{GlobalId}}'>{{Adres}} {{Postcode}} {{Woonplaats}}</a></h1>
-                    <p>Oppervlakte: {{PerceelOppervlakte}}</p>
-                    <img src={{Foto}} alt={{Adres}} />
+                  <img src={{FotoLarge}} alt={{Adres}} />
+                  <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
+                  <p>{{Postcode}} {{Woonplaats}}</p>
+                  <p><strong>€ {{Koopprijs}}</strong></p>
+
                 </div>
         {{/each}}
     </script>

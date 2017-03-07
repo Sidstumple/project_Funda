@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var config = {
+  var el = {
     search: document.getElementById('getUserQuery'),
     queryResult: document.getElementById('queryResult'),
     error: document.getElementById('error'),
@@ -9,11 +9,15 @@
 
   var app ={
     init: function() {
-      config.search.addEventListener('submit', function(){
+      el.search.addEventListener('submit', function(){
         event.preventDefault();
         console.log('search was used');
         getData.search();
       });
+      // el.button.addEventListener('click',function(){
+      //   event.preventDefault();
+      //   getData.filter();
+      // });
       routes.init();
     }
   };
@@ -39,6 +43,7 @@
   var getData = {
     search: function(){
       var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
+      var rooms = [];
 
         console.log(userQuery);
         //makes sure api url has the right userquery and adds the value of the selected option
@@ -53,16 +58,20 @@
             console.log('nothing available');
             sections.renderError();
           }
+          console.log(data.Objects);
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
-          console.log(data.Objects.GlobalId)
 
-          config.button.addEventListener('click',function(){
-            event.preventDefault();
-            var filtered = this.filter(Objects.HeeftBrochure === true);
-            renderSearch(filtered);
-          })
+          // data.Objects.map(function(houses){
+          //   console.log(houses.AantalKamers);
+          //   function getRooms(rooms) {
+          //     return rooms > 3;
+          //   }
+          //   rooms.push(houses.AantalKamers);
+          //   var roomsFilter = rooms.filter(getRooms);
+          //   console.log(roomsFilter);
+          // });
         })
     .go()
   },
@@ -79,18 +88,15 @@
       var template = Handlebars.compile(source);
       var htmlCollection = template(data);
 
-      config.queryResult.innerHTML = htmlCollection;
-      console.log(htmlCollection);
+      el.queryResult.innerHTML = htmlCollection;
     },
     renderError: function() {
     var source = document.getElementById('errorTemplate').innerHTML;
     var template = Handlebars.compile(source);
     var errorHTML = template();
 
-    config.error.innerHTML = errorHTML;
-     console.log(template);
+    el.error.innerHTML = errorHTML;
 },
-
 
     toggle: function(route) {
       //selects all sections in the document
@@ -105,7 +111,7 @@
         }else { // else add class hide to section
           section.classList.add('hide');
         }
-      })
+      });
     }
   }
 
