@@ -11,10 +11,10 @@ body {
 }
 
 a {
-    text-decoration: none;
-    color: #0071B3;
-    font-size: 0.9em;
-    font-weight: 500;
+  text-decoration: none;
+  color: #0071B3;
+  font-size: 0.9em;
+  font-weight: 500;
 }
 
 p {
@@ -72,15 +72,15 @@ header {
 }
 
 .search-field {
-    min-height: 10em;
-    max-width: 100vw;
-    width: 80vw;
-    align-self: center;
-    background: #F7A100;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  min-height: 10em;
+  max-width: 100vw;
+  width: 80vw;
+  align-self: center;
+  background: #F7A100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 input {
@@ -107,14 +107,14 @@ form.column {
 }
 
 button[type="submit"] {
-    background-color: #0071B3;
-    color: white;
-    border: none;
-    font-size: 1em;
-    width: 50%;
-    flex-grow: 1;
-    min-width: 20em;
-    height: 2.75em;
+  background-color: #0071B3;
+  color: white;
+  border: none;
+  font-size: 1em;
+  width: 50%;
+  flex-grow: 1;
+  min-width: 20em;
+  height: 2.75em;
 }
 
 .fundaSearch {
@@ -125,10 +125,10 @@ button[type="submit"] {
 }
 
 article#queryResult {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 1em;
 }
 
 .house-item {
@@ -136,11 +136,66 @@ article#queryResult {
     background: white;
     padding: .5em;
     box-sizing: border-box;
-    margin-bottom: 1em;
+    margin: 0.5em;
     min-width: 16em;
+    flex-grow: 1;
 }
-
 
 .hide {
   display: none;
 }
+
+.detail-item {
+  background: white;
+  display: flex;
+  margin: 1em;
+  padding: 1em;
+  box-sizing: border-box;
+  flex-direction: column;
+  width: 80vw;
+}
+
+.title {
+  width: 50%;
+  flex-grow: 1;
+  min-width: 19em;
+}
+
+.title h1 {
+  font-size: 2em;
+  margin: 0;
+}
+
+.info {
+  display: flex;
+  font-size: 0.8em;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.info p {
+  margin: 0.1em 0;
+  text-align: right;
+}
+
+.combine {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.detail-item img {
+  width: 100%;
+}
+
+img+p {
+  white-space: pre-wrap;
+}
+
+
+
+@media (max-width: 638px) {
+  .info p {
+    text-align: left;
+  }

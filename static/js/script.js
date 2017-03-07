@@ -65,7 +65,6 @@
   },
 
   detail: function(id) {
-
       //makes sure api url has the right userquery and adds the value of the selected option
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
       // GET data for applied filter

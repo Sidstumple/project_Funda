@@ -71,15 +71,27 @@
         </div>
     </script>
     <script id="detailTemplate" type="text/x-handlebars-template">
-        <div class="detail-item">
-            <div class="container">
-                <div class="text">
-                    <h1>{{Adres}}</h1>
-                    <p>{{AangebodenSindsTekst}}</p>
-                    <img src="{{HoofdFoto}}"/>
-                </div>
-            </div>
+      <div class="detail-item">
+        <div class="combine">
+          <div class="title">
+            <h1>{{Adres}}</h1>
+            <p>{{Postcode}}, {{Plaats}}</p>
+            <p>Vraagprijs: {{Koopprijs}}</p>
+          </div>
+          <div class="info">
+            <p>{{AangebodenSindsTekst}} geleden aangeboden.</p>
+            <p>Aantal kamers: {{AantalKamers}}</p>
+            {{#if aantalSlaapkamers}}
+              <p>Aantal kamers: {{AantalKamers}}</p>
+            {{/if}}
+            <p>Aantal badkamers: {{AantalBadkamers}}</p>
+            <p>Bouwjaar: {{Bouwjaar}}</p>
+            <p>Perceeloppervlakte: {{PerceelOppervlakte}}m2</p>
+          </div>
         </div>
+          <img src="{{HoofdFoto}}"/>
+        <p>{{VolledigeOmschrijving}}</p>
+      </div>
     </script>
 
 
