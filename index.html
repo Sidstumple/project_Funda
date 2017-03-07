@@ -40,7 +40,7 @@
 
 
         <section id="detail">
-            <article id="detailHome"></article>
+            <article id="detailResult"></article>
         </section>
 
 
@@ -51,8 +51,8 @@
     <script src="static/js/script.js"></script>
     <script id="searchTemplate" type="text/x-handlebars-template">
         {{#each Objects}}
-                <div class="house-item" id={{GlobalId}}>
-                  <img src={{FotoLarge}} alt={{Adres}} />
+                <div class="house-item" id={{Id}}>
+                  <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
                   <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
                   <p>{{Postcode}} {{Woonplaats}}</p>
                   <p><strong>€ {{Koopprijs}}</strong></p>
@@ -66,6 +66,17 @@
                 <div class="text">
                     <h1>Jammer...</h1>
                     <p>Er zijn helaas geen resultaten gevonden die overeenkomen met uw zoekterm. Probeert u het nog eens.</p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="detailTemplate" type="text/x-handlebars-template">
+        <div class="detail-item">
+            <div class="container">
+                <div class="text">
+                    <h1>{{Adres}}</h1>
+                    <p>{{AangebodenSindsTekst}}</p>
+                    <img src="{{HoofdFoto}}"/>
                 </div>
             </div>
         </div>
