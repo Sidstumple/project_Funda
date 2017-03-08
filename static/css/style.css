@@ -213,6 +213,20 @@ select {
     justify-content: space-around;
 }
 
+#detailResult {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+/*#suggestions {
+    width: 18em;
+    display: flex;
+    flex-direction: column;
+}*/
+
 @media (max-width: 638px) {
   .info p {
     text-align: left;

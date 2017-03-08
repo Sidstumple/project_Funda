@@ -84,7 +84,12 @@
 
 
         <section id="detail">
-            <article id="detailResult"></article>
+            <article id="detailResult">
+              <div id="details">
+              </div>
+              <div id="suggestions">
+              </div>
+            </article>
         </section>
 
 
@@ -104,15 +109,18 @@
                 </div>
         {{/each}}
     </script>
-    <!-- <script id="filterTemplate" type="text/x-handlebars-template">
-        <div class="house-item" id={{Id}}>
-          <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
-          <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
-          <p>{{Postcode}} {{Woonplaats}}</p>
-          <p>Aantal kamers: {{AantalKamers}}</p>
-          <p><strong>€ {{Koopprijs}}</strong></p>
-        </div>
-    </script> -->
+    <script id="suggestTemplate" type="text/x-handlebars-template">
+      <h1>Deze woningen zijn misschien ook interessant voor je:</h1>
+        {{#each Objects}}
+                <div class="house-item" id={{Id}}>
+                  <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
+                  <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
+                  <p>{{Postcode}} {{Woonplaats}}</p>
+                  <p>Aantal kamers: {{AantalKamers}}</p>
+                  <p><strong>€ {{Koopprijs}}</strong></p>
+                </div>
+        {{/each}}
+    </script>
     <script id="errorTemplate" type="text/x-handlebars-template">
         <div class="error-item">
             <div class="container">
@@ -129,7 +137,7 @@
           <div class="title">
             <h1>{{Adres}}</h1>
             <p>{{Postcode}}, {{Plaats}}</p>
-            <p>Vraagprijs: {{Koopprijs}}</p>
+            <p>Vraagprijs: €{{Koopprijs}}</p>
           </div>
           <div class="info">
             <p>{{AangebodenSindsTekst}} geleden aangeboden.</p>

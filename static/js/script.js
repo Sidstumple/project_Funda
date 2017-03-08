@@ -3,7 +3,8 @@
   var el = {
     search: document.getElementById('getUserQuery'),
     queryResult: document.getElementById('queryResult'),
-    detailSection: document.getElementById('detailResult'),
+    details: document.getElementById('details'),
+    suggestions: document.getElementById('suggestions'),
     error: document.getElementById('error'),
     button: document.getElementById('button'),
     rooms: document.getElementById('rooms'),
@@ -62,14 +63,14 @@
           var obj = data.Objects;
           self.filterRooms(obj);
           self.filterPrice(obj);
+          // self.suggest();
         })
-
-    .go()
+        .go()
   },
   detail: function(id) {
       //makes sure api url has the right userquery and adds the value of the selected option
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
-
+      var self = this;
       console.log(apiUrl);
       aja()
       .url(apiUrl)
@@ -78,42 +79,67 @@
         console.log('detail api is loaded');
         // this calls renderSearch and changes the html according to the applied filter
         sections.renderDetail(data);
+        self.suggest();
       })
       .go()
     },
+    suggest: function() {
+      var self = this;
+      var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
+        console.log(userQuery);
+        //makes sure api url has the right userquery and adds the value of the selected option
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery + '/+15km' + '/&page=1&pagesize=5';
+        console.log(apiUrl);
+        aja()
+        .url(apiUrl)
+        .on('success', function(data){
+          //if the array is empty renderError
+          if(data.Objects.length === 0) {
+            console.log('nothing available');
+            sections.renderError();
+          }
+          console.log(data.Objects);
+          console.log('search api is loaded');
+          // this calls renderSearch and changes the html according to the applied filter
+          sections.renderSuggest(data);
+          var obj = data.Objects;
+          self.filterRooms(obj);
+          self.filterPrice(obj);
+        })
+        .go()
+      },
   filterRooms: function(data){
     var self = this;
     el.rooms.addEventListener('change', function() {
-    console.log(this.value);
-    var filterValue = this.value;
-    function getFilters(check) {
-      console.log(filterValue);
-      return check.AantalKamers > filterValue;
-    }
-    var filterData = data.filter(getFilters);
-    el.queryResult.innerHTML > filterData;
-    sections.renderFilter(filterData);
-    console.log(filterData);
-    self.filterPrice(filterData);
-  })
-},
-filterPrice: function(data) {
-  var self = this;
-  el.price.addEventListener('change', function(){
-    console.log(this.value);
-    var filterValue = this.value;
-    function getFilters(check) {
-      console.log(filterValue);
-      return check.Koopprijs < filterValue;
-    }
-    var filterData = data.filter(getFilters);
+      console.log(this.value);
+      var filterValue = this.value;
+      function getFilters(check) {
+          console.log(filterValue);
+          return check.AantalKamers > filterValue;
+      }
+      var filterData = data.filter(getFilters);
+      el.queryResult.innerHTML > filterData;
+      sections.renderFilter(filterData);
+      console.log(filterData);
+      self.filterPrice(filterData);
+    })
+  },
+  filterPrice: function(data) {
+    var self = this;
+    el.price.addEventListener('change', function(){
+      console.log(this.value);
+      var filterValue = this.value;
+      function getFilters(check) {
+        console.log(filterValue);
+        return check.Koopprijs < filterValue;
+      }
+      var filterData = data.filter(getFilters);
 
-    el.queryResult.innerHTML > filterData;
-    sections.renderFilter(filterData);
-    self.filterRooms(filterData);
-  })
-}
-
+      el.queryResult.innerHTML > filterData;
+      sections.renderFilter(filterData);
+      self.filterRooms(filterData);
+    })
+  }
 };
 
 
@@ -191,7 +217,15 @@ filterPrice: function(data) {
       var template = Handlebars.compile(source);
       var htmlDetail = template(data);
 
-      el.detailSection.innerHTML = htmlDetail;
+      el.details.innerHTML = htmlDetail;
+    },
+    renderSuggest: function(data) {
+      //this is the script template in the html
+      var source = document.getElementById('suggestTemplate').innerHTML;
+      var template = Handlebars.compile(source);
+      var htmlDetail = template(data);
+
+      el.suggestions.innerHTML = htmlDetail;
     },
     toggle: function(route) {
       //selects all sections in the document
