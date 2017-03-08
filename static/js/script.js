@@ -6,7 +6,8 @@
     detailSection: document.getElementById('detailResult'),
     error: document.getElementById('error'),
     button: document.getElementById('button'),
-    rooms: document.getElementById('rooms')
+    rooms: document.getElementById('rooms'),
+    price: document.getElementById('price')
   };
 
   var app ={
@@ -58,7 +59,9 @@
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
-          self.filter(data);
+          var obj = data.Objects;
+          self.filterRooms(obj);
+          self.filterPrice(obj);
         })
 
     .go()
@@ -78,21 +81,39 @@
       })
       .go()
     },
-  filter: function(data){
-    console.log(data)
+  filterRooms: function(data){
+    var self = this;
     el.rooms.addEventListener('change', function() {
-      console.log(this.value);
-      var filterValue = this.value;
-      function getFilters(check) {
-        console.log(filterValue);
-        return check.AantalKamers > filterValue;
-      }
-      var filterData = data.Objects.filter(getFilters);
-      el.queryResult.innerHTML > filterData;
-      sections.renderFilter(filterData);
-      console.log(filterData);
-    })
-  }
+    console.log(this.value);
+    var filterValue = this.value;
+    function getFilters(check) {
+      console.log(filterValue);
+      return check.AantalKamers > filterValue;
+    }
+    var filterData = data.filter(getFilters);
+    el.queryResult.innerHTML > filterData;
+    sections.renderFilter(filterData);
+    console.log(filterData);
+    self.filterPrice(filterData);
+  })
+},
+filterPrice: function(data) {
+  var self = this;
+  el.price.addEventListener('change', function(){
+    console.log(this.value);
+    var filterValue = this.value;
+    function getFilters(check) {
+      console.log(filterValue);
+      return check.Koopprijs < filterValue;
+    }
+    var filterData = data.filter(getFilters);
+
+    el.queryResult.innerHTML > filterData;
+    sections.renderFilter(filterData);
+    self.filterRooms(filterData);
+  })
+}
+
 };
 
 
@@ -136,7 +157,7 @@
         htmlCollection += `
         <div class="house-item" id=${fil.Id}>
           <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
-          <h3><a href="'#search/' ${fil.GlobalId}">${fil.Adres}</a></h3>
+          <h3><a href="#search/${fil.GlobalId}">${fil.Adres}</a></h3>
           <p>${fil.Postcode} ${fil.Woonplaats}</p>
           <p>Aantal kamers: ${fil.AantalKamers}</p>
           <p><strong>€ ${fil.Koopprijs}</strong></p>
