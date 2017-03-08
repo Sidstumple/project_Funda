@@ -81,17 +81,15 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1em;
 }
 
-input {
+input[type="text"] {
   padding: 0.688em 1em;
   box-sizing: border-box;
   width: 50%;
   flex-grow: 1;
   border: none;
-}
-
-input[type="text"] {
   padding-left: 0.7em;
   height: 2.750em;
   font-size: 1em;
@@ -196,6 +194,16 @@ img+p {
 /*removes extremely ugly yellowish color from autocomplete states*/
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+select {
+    box-sizing: border-box;
+    font-size: 1em;
+    background: white;
+    border: none;
+    height: 2.75em;
+    width: 100%;
+    min-width: 9em;
 }
 
 @media (max-width: 638px) {

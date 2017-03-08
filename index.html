@@ -28,6 +28,16 @@
             <input type="text" id="user-input-field" placeholder="Plaats, buurt, adres etc." autofocus required>
             <button type="submit" name="button">Zoek</button>
           </form>
+          <form id="filters">
+            <p>Aantal kamers:</p>
+            <select id="rooms" name="rooms">
+              <option value="1">1+ kamer</option>
+              <option value="2">2+ kamers</option>
+              <option value="3">3+ kamers</option>
+              <option value="4">4+ kamers</option>
+
+            </select>
+          </form>
         </div>
 
         <article id="queryResult">
@@ -60,7 +70,7 @@
                 </div>
         {{/each}}
     </script>
-    <script id="filterTemplate" type="text/x-handlebars-template">
+    <!-- <script id="filterTemplate" type="text/x-handlebars-template">
         <div class="house-item" id={{Id}}>
           <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
           <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
@@ -68,8 +78,7 @@
           <p>Aantal kamers: {{AantalKamers}}</p>
           <p><strong>€ {{Koopprijs}}</strong></p>
         </div>
-    </script>
-
+    </script> -->
     <script id="errorTemplate" type="text/x-handlebars-template">
         <div class="error-item">
             <div class="container">
@@ -96,7 +105,7 @@
             {{/if}}
             <p>Aantal badkamers: {{AantalBadkamers}}</p>
             <p>Bouwjaar: {{Bouwjaar}}</p>
-            <p>Perceeloppervlakte: {{PerceelOppervlakte}}m2</p>
+            <p>Woonoppervlakte: {{WoonOppervlakte}}m2</p>
           </div>
         </div>
           <img src="{{HoofdFoto}}"/>

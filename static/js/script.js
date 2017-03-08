@@ -6,6 +6,7 @@
     detailSection: document.getElementById('detailResult'),
     error: document.getElementById('error'),
     button: document.getElementById('button'),
+    rooms: document.getElementById('rooms')
   };
 
   var app ={
@@ -44,7 +45,6 @@
         //makes sure api url has the right userquery and adds the value of the selected option
         var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery +'/&page=1&pagesize=25';
         var self = this;
-
         console.log(apiUrl);
         aja()
         .url(apiUrl)
@@ -58,11 +58,11 @@
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
-            self.filter(data); // initiates the filter
+          self.filter(data);
         })
+
     .go()
   },
-
   detail: function(id) {
       //makes sure api url has the right userquery and adds the value of the selected option
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
@@ -78,31 +78,23 @@
       })
       .go()
     },
-
   filter: function(data){
     console.log(data)
-    function getFilters(check) {
-      return check.AantalKamers > 3;
-    }
-    var filterData = data.Objects.filter(getFilters);
-    el.queryResult.innerHTML = filterData;
-    console.log(filterData);
-
-    var arr = [];
-    filterData.map(function(all){
-      arr.push(all);
+    el.rooms.addEventListener('change', function() {
+      console.log(this.value);
+      var filterValue = this.value;
+      function getFilters(check) {
+        console.log(filterValue);
+        return check.AantalKamers > filterValue;
+      }
+      var filterData = data.Objects.filter(getFilters);
+      el.queryResult.innerHTML > filterData;
+      sections.renderFilter(filterData);
+      console.log(filterData);
     })
-    // // reduce array to single object
-    // var filtered = arr.reduce(function(acc, cur, i) {
-    //   acc[i] = cur;
-    //   return acc;
-    // }, {});
-    // console.log(filtered);
-
-    sections.renderFilter(filterData);
-
   }
 };
+
 
   var sections = {
     //hier worden de sections geladen.
@@ -112,14 +104,26 @@
       var template = Handlebars.compile(source);
       var htmlCollection = template(data);
 
-      el.queryResult.innerHTML = htmlCollection;
-
-      //checks when search results are rendered, if a media-item is clicked.
+      //checks whether search results are rendered, if a media-item is clicked.
       var mediaItem = document.querySelectorAll('.house-item');
       mediaItem.forEach(function(get) {
         var house = get.id;
         // console.log(document.getElementById(house));
         document.getElementById(house).addEventListener('click', function(el) {
+          console.log('click on item')
+          console.log(this.id);
+          getData.detail(this.id);
+        })
+      })
+      el.queryResult.innerHTML = htmlCollection;
+
+      //checks whether search results are rendered, if a media-item is clicked.
+      var mediaItem = document.querySelectorAll('.house-item');
+      mediaItem.forEach(function(get) {
+        var house = get.id;
+        // console.log(document.getElementById(house));
+        document.getElementById(house).addEventListener('click', function(el) {
+          console.log('click on item')
           console.log(this.id);
           getData.detail(this.id);
         })
@@ -127,32 +131,31 @@
     },
     renderFilter: function(data) {
       console.log(data);
-      var htmlCollection;
-      var source = document.getElementById('filterTemplate').innerHTML;
-      var template = Handlebars.compile(source);
-      
+      var htmlCollection = '';
       data.map(function(fil) {
-        console.log(fil.Adres);
-
-
-        var content = {
-          Id: fil.Id,
-          GlobalId: fil.GlobalId,
-          FotoLarge: fil.FotoLarge,
-          Adres: fil.Adres,
-          Postcode: fil.Postcode,
-          Woonplaats: fil.Woonplaats,
-          AantalKamers: fil.AantalKamers,
-          Koopprijs: fil.Koopprijs
-        }
-
-        htmlCollection = template(content);
-        console.log(htmlCollection)
+        htmlCollection += `
+        <div class="house-item" id=${fil.Id}>
+          <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
+          <h3><a href="'#search/' ${fil.GlobalId}">${fil.Adres}</a></h3>
+          <p>${fil.Postcode} ${fil.Woonplaats}</p>
+          <p>Aantal kamers: ${fil.AantalKamers}</p>
+          <p><strong>€ ${fil.Koopprijs}</strong></p>
+        </div>
+        `;
       })
-
-
-
       el.queryResult.innerHTML = htmlCollection;
+
+      //checks whether search results are rendered, if a media-item is clicked.
+      var mediaItem = document.querySelectorAll('.house-item');
+      mediaItem.forEach(function(get) {
+        var house = get.id;
+        // console.log(document.getElementById(house));
+        document.getElementById(house).addEventListener('click', function(el) {
+          console.log('click on item')
+          console.log(this.id);
+          getData.detail(this.id);
+        })
+      })
     },
     renderError: function() {
       var source = document.getElementById('errorTemplate').innerHTML;
