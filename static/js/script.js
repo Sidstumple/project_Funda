@@ -8,7 +8,8 @@
     error: document.getElementById('error'),
     button: document.getElementById('button'),
     rooms: document.getElementById('rooms'),
-    price: document.getElementById('price')
+    price: document.getElementById('price'),
+    detailId: document.getElementById('detail-item')
   };
 
   var app ={
@@ -79,32 +80,39 @@
         console.log('detail api is loaded');
         // this calls renderSearch and changes the html according to the applied filter
         sections.renderDetail(data);
-        self.suggest();
+        self.suggest(data);
       })
       .go()
     },
-    suggest: function() {
+    suggest: function(data) {
+      var garden = '';
+
+      if (data.tuin != 'null') {
+        var garden = '/tuin'
+      }
       var self = this;
-      var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
-        console.log(userQuery);
         //makes sure api url has the right userquery and adds the value of the selected option
-        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery + '/+15km' + '/&page=1&pagesize=5';
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden;
         console.log(apiUrl);
+
+        var detRooms = data.AantalKamers;
+        var detSpace = data.WoonOppervlakte;
+
         aja()
         .url(apiUrl)
-        .on('success', function(data){
+        .on('success', function(arr){
           //if the array is empty renderError
-          if(data.Objects.length === 0) {
+          if(arr.Objects.length === 0) {
             console.log('nothing available');
             sections.renderError();
           }
-          console.log(data.Objects);
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
-          sections.renderSuggest(data);
-          var obj = data.Objects;
-          self.filterRooms(obj);
-          self.filterPrice(obj);
+          sections.renderSuggest(arr);
+
+          var obj = arr.Objects;
+          self.filterRooms(detRooms);
+          self.filterPrice(detSpace);
         })
         .go()
       },
@@ -216,6 +224,7 @@
       var source = document.getElementById('detailTemplate').innerHTML;
       var template = Handlebars.compile(source);
       var htmlDetail = template(data);
+      console.log(data)
 
       el.details.innerHTML = htmlDetail;
     },

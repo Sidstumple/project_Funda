@@ -83,6 +83,7 @@ header {
   justify-content: center;
   align-items: center;
   padding: 1em;
+  box-sizing: border-box;
 }
 
 input[type="text"] {
@@ -147,11 +148,9 @@ article#queryResult {
 .detail-item {
   background: white;
   display: flex;
-  margin: 1em;
   padding: 1em;
   box-sizing: border-box;
   flex-direction: column;
-  width: 80vw;
 }
 
 .title {
@@ -213,21 +212,59 @@ select {
     justify-content: space-around;
 }
 
-#detailResult {
+#detail {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     box-sizing: border-box;
     justify-content: center;
+    width: 100vw;
 }
 
-/*#suggestions {
-    width: 18em;
-    display: flex;
-    flex-direction: column;
+#suggestions {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+  flex-wrap: wrap;
+  margin: 0.5em;
+}
+
+#suggestions .house-item {
+  width: auto;
+  margin: 0;
+  min-width: auto;
+  margin-bottom: 0.5em;
+  max-height: max-content;
+}
+
+#details {
+  width: 50%;
+  min-width: 20em;
+  flex-grow: 1;
+  margin: 0.5em;
+}
+
+#suggestions > h3 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+/*#suggestions .house-item:nth-child(n+6) {
+  display: none;
 }*/
 
 @media (max-width: 638px) {
   .info p {
     text-align: left;
+  }
+
+  @media (max-width: 700px) {
+    #suggestions {
+      width: auto;
+      flex-direction: row;
+    }
+    #suggestions .house-item {
+      width: 30vw;
+      margin: 0.5em;
+    }
   }

@@ -84,12 +84,10 @@
 
 
         <section id="detail">
-            <article id="detailResult">
               <div id="details">
               </div>
               <div id="suggestions">
               </div>
-            </article>
         </section>
 
 
@@ -101,8 +99,8 @@
     <script id="searchTemplate" type="text/x-handlebars-template">
         {{#each Objects}}
                 <div class="house-item" id={{Id}}>
-                  <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
-                  <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
+                  <a href="#search/{{GlobalId}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
+                  <h3><a href="#search/{{GlobalId}}">{{Adres}}</a></h3>
                   <p>{{Postcode}} {{Woonplaats}}</p>
                   <p>Aantal kamers: {{AantalKamers}}</p>
                   <p><strong>€ {{Koopprijs}}</strong></p>
@@ -110,11 +108,11 @@
         {{/each}}
     </script>
     <script id="suggestTemplate" type="text/x-handlebars-template">
-      <h1>Deze woningen zijn misschien ook interessant voor je:</h1>
+      <h3>Deze woningen zijn misschien ook interessant voor je:</h3>
         {{#each Objects}}
                 <div class="house-item" id={{Id}}>
-                  <a href="#search/{{Id}}"><img src={{FotoLarge}} alt={{Adres}} /></a>
-                  <h3><a href='#search/{{GlobalId}}'>{{Adres}}</a></h3>
+                  <a href="#search/{{GlobalId}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
+                  <h3><a href="#search/{{GlobalId}}">{{Adres}}</a></h3>
                   <p>{{Postcode}} {{Woonplaats}}</p>
                   <p>Aantal kamers: {{AantalKamers}}</p>
                   <p><strong>€ {{Koopprijs}}</strong></p>
@@ -132,7 +130,7 @@
         </div>
     </script>
     <script id="detailTemplate" type="text/x-handlebars-template">
-      <div class="detail-item">
+      <div class="detail-item" id="{{InternalId}}">
         <div class="combine">
           <div class="title">
             <h1>{{Adres}}</h1>
