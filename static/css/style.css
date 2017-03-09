@@ -212,7 +212,7 @@ select {
     justify-content: space-around;
 }
 
-#detail {
+#wrap {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -249,9 +249,51 @@ select {
     margin-bottom: 0.5em;
 }
 
-/*#suggestions .house-item:nth-child(n+6) {
-  display: none;
-}*/
+/* ==========================================================================
+   Loading spinner
+   ========================================================================== */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100vw;
+    height: 10em;
+    cursor: progress;
+}
+
+.circle1, .circle2, .circle3 {
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+    background: #F7A100;
+    align-self: center;
+    margin: 0.5em;
+    animation: loader 1s infinite ease-in-out;
+}
+
+.circle2 {
+    animation-delay: .16s;
+}
+.circle3 {
+    animation-delay: .32s;
+}
+
+
+@keyframes loader{
+    0%, 80%, 100% {
+        width: 0;
+        height: 0;
+        transform: translateY(.5em);
+    }
+    40% {
+        width: 1em;
+        height: 1em;
+        transform: translateY(0);
+    }
+
+}
+
+
 
 @media (max-width: 638px) {
   .info p {

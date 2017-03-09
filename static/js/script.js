@@ -9,7 +9,10 @@
     button: document.getElementById('button'),
     rooms: document.getElementById('rooms'),
     price: document.getElementById('price'),
-    detailId: document.getElementById('detail-item')
+    detailId: document.getElementById('detail-item'),
+    load1: document.getElementById('load1'),
+    load2: document.getElementById('load2'),
+    load3: document.getElementById('load3')
   };
 
   var app ={
@@ -18,6 +21,8 @@
         event.preventDefault();
         console.log('search was used');
         getData.search();
+        el.load1.classList.remove('hide');
+        sections.renderLoader();
       });
       routes.init();
     }
@@ -62,7 +67,6 @@
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
           var obj = data.Objects;
-
           self.filterRooms(obj);
           self.filterPrice(obj);
         })
@@ -153,6 +157,7 @@
   var sections = {
     //hier worden de sections geladen.
     renderSearch: function(data) {
+      el.load1.classList.add('hide');
       //this is the script template in the html
       var source = document.getElementById('searchTemplate').innerHTML;
       var template = Handlebars.compile(source);
@@ -170,7 +175,6 @@
         })
       })
       el.queryResult.innerHTML = htmlCollection;
-
       //checks whether search results are rendered, if a media-item is clicked.
       var mediaItem = document.querySelectorAll('.house-item');
       mediaItem.forEach(function(get) {
@@ -184,6 +188,7 @@
       })
     },
     renderFilter: function(data) {
+      el.load1.classList.add('hide');
       console.log(data);
       var htmlCollection = '';
         data.map(function(fil) {
@@ -219,6 +224,7 @@
       el.error.innerHTML = errorHTML;
     },
     renderDetail: function(data) {
+      el.load1.classList.add('hide');
       //this is the script template in the html
       var source = document.getElementById('detailTemplate').innerHTML;
       var template = Handlebars.compile(source);
@@ -228,6 +234,7 @@
       el.details.innerHTML = htmlDetail;
     },
     renderSuggest: function(data) {
+      el.load1.classList.add('hide');
       var htmlCollection = '';
         data.map(function(fil) {
           htmlCollection += `
@@ -253,6 +260,16 @@
           getData.detail(this.id);
         })
       })
+    },
+    renderLoader: function() {
+      //this is the script template in the html
+      var source = document.getElementById('loader').innerHTML;
+      var template = Handlebars.compile(source);
+      var htmlDetail = template();
+
+      el.load1.innerHTML = htmlDetail;
+      el.load2.innerHTML = htmlDetail;
+      el.load3.innerHTML = htmlDetail;
     },
     toggle: function(route) {
       //selects all sections in the document

@@ -73,7 +73,8 @@
             </div>
           </form>
         </div>
-
+        <div id="load1">
+        </div>
         <article id="queryResult">
 
         </article>
@@ -84,10 +85,16 @@
 
 
         <section id="detail">
-              <div id="details">
+          <div id="wrap">
+            <div id="details">
+              <div id="load2">
               </div>
-              <div id="suggestions">
+            </div>
+            <div id="suggestions">
+              <div id="load3">
               </div>
+            </div>
+          </div>
         </section>
 
 
@@ -97,18 +104,6 @@
     <script src="static/js/config.js"></script>
     <script src="static/js/script.js"></script>
     <script id="searchTemplate" type="text/x-handlebars-template">
-        {{#each Objects}}
-                <div class="house-item" id={{Id}}>
-                  <a href="#search/{{GlobalId}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
-                  <h3><a href="#search/{{GlobalId}}">{{Adres}}</a></h3>
-                  <p>{{Postcode}} {{Woonplaats}}</p>
-                  <p>Aantal kamers: {{AantalKamers}}</p>
-                  <p><strong>€ {{Koopprijs}}</strong></p>
-                </div>
-        {{/each}}
-    </script>
-    <script id="suggestTemplate" type="text/x-handlebars-template">
-      <h3>Vergelijkbare woningen:</h3>
         {{#each Objects}}
                 <div class="house-item" id={{Id}}>
                   <a href="#search/{{GlobalId}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
@@ -149,6 +144,13 @@
         </div>
           <img src="{{HoofdFoto}}"/>
         <p>{{VolledigeOmschrijving}}</p>
+      </div>
+    </script>
+    <script id="loader" type="text/x-handlebars-template">
+      <div class="loader">
+        <div class="circle1"></div>
+        <div class="circle2"></div>
+        <div class="circle3"></div>
       </div>
     </script>
 
