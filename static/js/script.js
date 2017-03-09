@@ -62,12 +62,14 @@
             console.log('nothing available');
             sections.renderError();
           }
+
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
           var obj = data.Objects;
           self.filterRooms(obj);
           self.filterPrice(obj);
+
           el.load1.classList.add('hide');
         })
         .go()

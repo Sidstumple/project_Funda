@@ -13,14 +13,14 @@ body {
 
 a {
   text-decoration: none;
-  color: #0071B3;
+  color: #60C5F8;
   font-size: 0.9em;
   font-weight: 500;
 }
 
 p {
   font-size: 0.9em;
-  font-weight: 500;
+  font-weight: 300;
 }
 
 /*nav*/
@@ -107,8 +107,9 @@ form.column {
 }
 
 button[type="submit"] {
-  background-color: #0071B3;
-  color: white;
+  background-color: #60C5F8;
+  color: #53241B;
+  font-weight: 700;
   border: none;
   font-size: 1em;
   width: 50%;
@@ -190,7 +191,26 @@ article#queryResult {
 }
 
 img+p {
-  white-space: pre-wrap;
+    white-space: pre-wrap;
+    height: 20em;
+    overflow: hidden;
+}
+
+#readmore :target < []{
+
+}
+
+#detail .houseill {
+  width: 100vw;
+}
+
+#detail .silhouette {
+  width: 100vw;
+}
+
+#detail {
+    margin: 1em;
+    box-sizing: border-box;
 }
 
 /*removes extremely ugly yellowish color from autocomplete states*/
@@ -241,6 +261,15 @@ select {
 
 .suggestions > h3 {
     margin: 1em 0.5em;
+    color: #F7A100;
+}
+
+.detail-item h1 {
+    color: #60C5F8;
+}
+
+#suggestions h3 {
+    color: #60C5F8;
 }
 
 #details {
@@ -301,7 +330,7 @@ select {
 
 .houseill h2 {
     color: #55241A;
-    width: 100%;
+    width: 90%;
     height: 100%;
     font-weight: 100;
     display: flex;
