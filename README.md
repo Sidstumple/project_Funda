@@ -10,6 +10,17 @@ As a funda user I want to get suggestions of houses I probably find interesting,
 ## Schematic:
 ![flow schematisch](/img/actorDiagram.png)
 
+## Features:
+* Searching on city name
+* Filtering on price and amount of rooms
+* Viewing detail item
+* Suggesting data based on detail item
+
+## Wishlist
+* Using the users' filter values for suggestions as well.
+* Adding more data from another API (demographic or safety data).
+* Saving the user actions to give better suggestions based on previous searches and applied filters.
+
 ### Notes for API
 + &zo= is used to add a search query, all new queries are placed between slashes(/.../).
 + All spaces in queries are replaced by middle dashes (-).
