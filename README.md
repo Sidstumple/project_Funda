@@ -7,6 +7,9 @@ As a funda user I want to get suggestions of houses I probably find interesting,
 ## Drawing it out:
 ![flow visueel](/img/flow_suggest.jpg)
 
+## Schematic:
+![flow schematisch](/img/actorDiagram.png)
+
 ### Notes for API
 + &zo= is used to add a search query, all new queries are placed between slashes(/.../).
 + All spaces in queries are replaced by middle dashes (-).

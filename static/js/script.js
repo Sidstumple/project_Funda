@@ -1,6 +1,7 @@
 (function(){
   'use strict';
   var el = {
+    baseUrl: '#search/',
     search: document.getElementById('getUserQuery'),
     queryResult: document.getElementById('queryResult'),
     details: document.getElementById('details'),
@@ -36,13 +37,13 @@
         },
         'search': function(){
           console.log('page is ' + this.path);
-          sections.toggle('#' + this.path );
+          sections.toggle(this.path );
           el.load1.classList.add('hide');
         },
         'search/:detail': function(detail) {
           console.log('page is ' + this.path);
           getData.detail();
-          sections.toggle('#' + this.path );
+          sections.toggle(this.path);
         }
       });
     }
@@ -77,7 +78,7 @@
   detail: function() {
     el.load1.classList.remove('hide');
       //makes sure api url has the right userquery and adds the value of the selected option
-      var id = location.hash.slice(8);
+      var id = location.hash.slice(el.baseUrl.length);
 
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
       var self = this;
@@ -228,9 +229,8 @@
       var section = document.querySelectorAll('section');
       //loop through all sections
       section.forEach(function(section){
-        var router = route.slice(1);
         //if sectionsId is the same as route remove the hide class
-        if (section.id === router || router.slice(8) === section.id) {
+        if (section.id === route || route.slice(el.baseUrl.length) === section.id) {
           console.log('remove hide');
           section.classList.remove('hide');
 
