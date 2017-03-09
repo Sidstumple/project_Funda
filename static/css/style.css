@@ -60,6 +60,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
 }
 
 .houseill {
@@ -69,6 +70,7 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
   margin-top: -13.5em;
 }
 
@@ -194,18 +196,12 @@ img+p {
     white-space: pre-wrap;
     height: 20em;
     overflow: hidden;
+    columns: 24em 3;
+    column-gap: 1.5em;
 }
 
 #readmore :target < []{
 
-}
-
-#detail .houseill {
-  width: 100vw;
-}
-
-#detail .silhouette {
-  width: 100vw;
 }
 
 #detail {
@@ -277,6 +273,7 @@ select {
   min-width: 20em;
   flex-grow: 1;
   margin: 0.5em;
+  max-width: 80vw;
 }
 
 #suggestions > h3 {
@@ -336,6 +333,7 @@ select {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin: 0 auto;
     margin-left: 5%;
 }
 
