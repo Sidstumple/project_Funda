@@ -95,7 +95,7 @@
       var detSpace = data.WoonOppervlakte;
       var detId = data.InternalId;
         //makes sure api url has the right userquery and adds the value of the selected option
-        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/';
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/' +'/&page=1&pagesize=6';
         console.log(apiUrl);
 
         aja()
@@ -115,7 +115,6 @@
             console.log(sugData.Objects);
 
             var filterData = sugData.Objects.filter(getFilters);
-            console.log(filterData);
             // this calls renderSuggest and changes the html according to the applied filter
             sections.renderSuggest(filterData);
         })
@@ -229,13 +228,31 @@
       el.details.innerHTML = htmlDetail;
     },
     renderSuggest: function(data) {
+      var htmlCollection = '';
+        data.map(function(fil) {
+          htmlCollection += `
+          <div class="house-item" id=${fil.Id}>
+            <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
+            <h3><a href="#search/${fil.GlobalId}">${fil.Adres}</a></h3>
+            <p>${fil.Postcode} ${fil.Woonplaats}</p>
+            <p>Aantal kamers: ${fil.AantalKamers}</p>
+            <p><strong>€ ${fil.Koopprijs}</strong></p>
+          </div>
+          `;
+        });
+      el.suggestions.innerHTML = htmlCollection;
 
-      //this is the script template in the html
-      var source = document.getElementById('suggestTemplate').innerHTML;
-      var template = Handlebars.compile(source);
-      var htmlDetail = template(data);
-
-      el.suggestions.innerHTML = htmlDetail;
+      //checks whether search results are rendered, if a media-item is clicked.
+      var mediaItem = document.querySelectorAll('.house-item');
+      mediaItem.forEach(function(get) {
+        var house = get.id;
+        // console.log(document.getElementById(house));
+        document.getElementById(house).addEventListener('click', function(el) {
+          console.log('click on item')
+          console.log(this.id);
+          getData.detail(this.id);
+        })
+      })
     },
     toggle: function(route) {
       //selects all sections in the document
