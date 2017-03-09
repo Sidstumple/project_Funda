@@ -40,6 +40,7 @@
         },
         'search/:detail': function(detail) {
           console.log('page is ' + this.path);
+          getData.detail();
           sections.toggle('#' + this.path );
         }
       });
@@ -53,7 +54,6 @@
         //makes sure api url has the right userquery and adds the value of the selected option
         var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery +'/&page=1&pagesize=25';
         var self = this;
-        console.log(apiUrl);
         aja()
         .url(apiUrl)
         .on('success', function(data){
@@ -72,15 +72,17 @@
         })
         .go()
   },
-  detail: function(id) {
+  detail: function() {
       //makes sure api url has the right userquery and adds the value of the selected option
+      var id = location.hash.slice(8);
+      console.log(id);
+
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
-      var self = this;
       console.log(apiUrl);
+      var self = this;
       aja()
       .url(apiUrl)
       .on('success', function(data){
-        console.log(data);
         console.log('detail api is loaded');
         // this calls renderSearch and changes the html according to the applied filter
         sections.renderDetail(data);
@@ -88,24 +90,21 @@
       })
       .go()
     },
-    suggest: function(data) {
+
+  suggest: function(data) {
       var garden = '';
       if (data.tuin != 'null') {
         var garden = '/tuin'
       }
       var self = this;
-
       var detRooms = data.AantalKamers;
       var detSpace = data.WoonOppervlakte;
       var detId = data.InternalId;
         //makes sure api url has the right userquery and adds the value of the selected option
         var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/' +'/&page=1&pagesize=6';
-        console.log(apiUrl);
-
         aja()
         .url(apiUrl)
         .on('success', function(sugData){
-          console.log(sugData);
           //if the array is empty renderError
           if(sugData.Objects.length === 0) {
             console.log('nothing available');
@@ -116,8 +115,6 @@
             function getFilters(check) {
               return check.Id != detId;
             }
-            console.log(sugData.Objects);
-
             var filterData = sugData.Objects.filter(getFilters);
             // this calls renderSuggest and changes the html according to the applied filter
             sections.renderSuggest(filterData);
@@ -130,7 +127,6 @@
       console.log(this.value);
       var filterValue = this.value;
       function getFilters(check) {
-          console.log(filterValue);
           return check.AantalKamers > filterValue;
       }
       var filterData = data.filter(getFilters);
@@ -163,29 +159,8 @@
       var template = Handlebars.compile(source);
       var htmlCollection = template(data);
 
-      //checks whether search results are rendered, if a media-item is clicked.
-      var mediaItem = document.querySelectorAll('.house-item');
-      mediaItem.forEach(function(get) {
-        var house = get.id;
-        // console.log(document.getElementById(house));
-        document.getElementById(house).addEventListener('click', function(el) {
-          console.log('click on item')
-          console.log(this.id);
-          getData.detail(this.id);
-        })
-      })
       el.queryResult.innerHTML = htmlCollection;
-      //checks whether search results are rendered, if a media-item is clicked.
-      var mediaItem = document.querySelectorAll('.house-item');
-      mediaItem.forEach(function(get) {
-        var house = get.id;
-        // console.log(document.getElementById(house));
-        document.getElementById(house).addEventListener('click', function(el) {
-          console.log('click on item')
-          console.log(this.id);
-          getData.detail(this.id);
-        })
-      })
+
     },
     renderFilter: function(data) {
       el.load1.classList.add('hide');
@@ -203,18 +178,6 @@
           `;
         });
       el.queryResult.innerHTML = htmlCollection;
-
-      //checks whether search results are rendered, if a media-item is clicked.
-      var mediaItem = document.querySelectorAll('.house-item');
-      mediaItem.forEach(function(get) {
-        var house = get.id;
-        // console.log(document.getElementById(house));
-        document.getElementById(house).addEventListener('click', function(el) {
-          console.log('click on item')
-          console.log(this.id);
-          getData.detail(this.id);
-        })
-      })
     },
     renderError: function() {
       var source = document.getElementById('errorTemplate').innerHTML;
@@ -229,8 +192,6 @@
       var source = document.getElementById('detailTemplate').innerHTML;
       var template = Handlebars.compile(source);
       var htmlDetail = template(data);
-      console.log(data)
-
       el.details.innerHTML = htmlDetail;
     },
     renderSuggest: function(data) {
@@ -238,28 +199,17 @@
       var htmlCollection = '';
         data.map(function(fil) {
           htmlCollection += `
-          <div class="house-item" id=${fil.Id}>
+          <div class="suggest-item" id=${fil.Id}>
             <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
-            <h3><a href="#search/${fil.GlobalId}">${fil.Adres}</a></h3>
+            <a href="#search/${fil.Id}"><h3>${fil.Adres}</h3></a>
             <p>${fil.Postcode} ${fil.Woonplaats}</p>
             <p>Aantal kamers: ${fil.AantalKamers}</p>
+            <p>Oppervlakte woning: ${fil.Woonoppervlakte}m2</p>
             <p><strong>€ ${fil.Koopprijs}</strong></p>
           </div>
           `;
         });
       el.suggestions.innerHTML = htmlCollection;
-
-      //checks whether search results are rendered, if a media-item is clicked.
-      var mediaItem = document.querySelectorAll('.house-item');
-      mediaItem.forEach(function(get) {
-        var house = get.id;
-        // console.log(document.getElementById(house));
-        document.getElementById(house).addEventListener('click', function(el) {
-          console.log('click on item')
-          console.log(this.id);
-          getData.detail(this.id);
-        })
-      })
     },
     renderLoader: function() {
       //this is the script template in the html
@@ -276,13 +226,12 @@
       var section = document.querySelectorAll('section');
       //loop through all sections
       section.forEach(function(section){
-        //sectionsId adds a hashtag to all section id's, so it will be the same as the location hash
         var router = route.slice(1);
-
         //if sectionsId is the same as route remove the hide class
         if (section.id === router || router.slice(8) === section.id) {
           console.log('remove hide');
           section.classList.remove('hide');
+
         }else { // else add class hide to section
           section.classList.add('hide');
         }

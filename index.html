@@ -106,8 +106,8 @@
     <script id="searchTemplate" type="text/x-handlebars-template">
         {{#each Objects}}
                 <div class="house-item" id={{Id}}>
-                  <a href="#search/{{GlobalId}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
-                  <h3><a href="#search/{{GlobalId}}">{{Adres}}</a></h3>
+                  <a href="#search/{{Id}}"><img src="{{FotoLarge}}" alt="{{Adres}}" /></a>
+                  <h3><a href="#search/{{Id}}">{{Adres}}</a></h3>
                   <p>{{Postcode}} {{Woonplaats}}</p>
                   <p>Aantal kamers: {{AantalKamers}}</p>
                   <p><strong>€ {{Koopprijs}}</strong></p>
@@ -140,6 +140,9 @@
             {{/if}}
             <p>Aantal badkamers: {{AantalBadkamers}}</p>
             <p>Woonoppervlakte: {{WoonOppervlakte}}m2</p>
+            {{#if Tuin}}
+            <p>Tuin: {{Tuin}}</p>
+            {{/if}}
           </div>
         </div>
           <img src="{{HoofdFoto}}"/>
