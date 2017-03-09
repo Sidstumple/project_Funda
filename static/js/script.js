@@ -42,7 +42,7 @@
   };
 
   var getData = {
-    search: function(){
+    search: function(val){
       var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
         console.log(userQuery);
         //makes sure api url has the right userquery and adds the value of the selected option
@@ -62,9 +62,9 @@
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
           var obj = data.Objects;
+
           self.filterRooms(obj);
           self.filterPrice(obj);
-          // self.suggest();
         })
         .go()
   },
@@ -86,39 +86,44 @@
     },
     suggest: function(data) {
       var garden = '';
-
       if (data.tuin != 'null') {
         var garden = '/tuin'
       }
       var self = this;
-        //makes sure api url has the right userquery and adds the value of the selected option
-        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden;
-        console.log(apiUrl);
 
-        var detRooms = data.AantalKamers;
-        var detSpace = data.WoonOppervlakte;
+      var detRooms = data.AantalKamers;
+      var detSpace = data.WoonOppervlakte;
+      var detId = data.InternalId;
+        //makes sure api url has the right userquery and adds the value of the selected option
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/';
+        console.log(apiUrl);
 
         aja()
         .url(apiUrl)
-        .on('success', function(arr){
+        .on('success', function(sugData){
+          console.log(sugData);
           //if the array is empty renderError
-          if(arr.Objects.length === 0) {
+          if(sugData.Objects.length === 0) {
             console.log('nothing available');
             sections.renderError();
           }
           console.log('search api is loaded');
-          // this calls renderSearch and changes the html according to the applied filter
-          sections.renderSuggest(arr);
 
-          var obj = arr.Objects;
-          self.filterRooms(detRooms);
-          self.filterPrice(detSpace);
+            function getFilters(check) {
+              return check.Id != detId;
+            }
+            console.log(sugData.Objects);
+
+            var filterData = sugData.Objects.filter(getFilters);
+            console.log(filterData);
+            // this calls renderSuggest and changes the html according to the applied filter
+            sections.renderSuggest(filterData);
         })
         .go()
       },
   filterRooms: function(data){
     var self = this;
-    el.rooms.addEventListener('change', function() {
+    el.rooms.addEventListener('change', function(){
       console.log(this.value);
       var filterValue = this.value;
       function getFilters(check) {
@@ -126,11 +131,9 @@
           return check.AantalKamers > filterValue;
       }
       var filterData = data.filter(getFilters);
-      el.queryResult.innerHTML > filterData;
       sections.renderFilter(filterData);
-      console.log(filterData);
       self.filterPrice(filterData);
-    })
+    });
   },
   filterPrice: function(data) {
     var self = this;
@@ -138,16 +141,13 @@
       console.log(this.value);
       var filterValue = this.value;
       function getFilters(check) {
-        console.log(filterValue);
         return check.Koopprijs < filterValue;
       }
       var filterData = data.filter(getFilters);
-
-      el.queryResult.innerHTML > filterData;
       sections.renderFilter(filterData);
       self.filterRooms(filterData);
     })
-  }
+  },
 };
 
 
@@ -187,17 +187,17 @@
     renderFilter: function(data) {
       console.log(data);
       var htmlCollection = '';
-      data.map(function(fil) {
-        htmlCollection += `
-        <div class="house-item" id=${fil.Id}>
-          <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
-          <h3><a href="#search/${fil.GlobalId}">${fil.Adres}</a></h3>
-          <p>${fil.Postcode} ${fil.Woonplaats}</p>
-          <p>Aantal kamers: ${fil.AantalKamers}</p>
-          <p><strong>€ ${fil.Koopprijs}</strong></p>
-        </div>
-        `;
-      })
+        data.map(function(fil) {
+          htmlCollection += `
+          <div class="house-item" id=${fil.Id}>
+            <a href="#search/${fil.Id}"><img src="${fil.FotoLarge}" alt="${fil.Adres}" /></a>
+            <h3><a href="#search/${fil.GlobalId}">${fil.Adres}</a></h3>
+            <p>${fil.Postcode} ${fil.Woonplaats}</p>
+            <p>Aantal kamers: ${fil.AantalKamers}</p>
+            <p><strong>€ ${fil.Koopprijs}</strong></p>
+          </div>
+          `;
+        });
       el.queryResult.innerHTML = htmlCollection;
 
       //checks whether search results are rendered, if a media-item is clicked.
@@ -229,6 +229,7 @@
       el.details.innerHTML = htmlDetail;
     },
     renderSuggest: function(data) {
+
       //this is the script template in the html
       var source = document.getElementById('suggestTemplate').innerHTML;
       var template = Handlebars.compile(source);
