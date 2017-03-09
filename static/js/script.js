@@ -37,6 +37,7 @@
         'search': function(){
           console.log('page is ' + this.path);
           sections.toggle('#' + this.path );
+          el.load1.classList.add('hide');
         },
         'search/:detail': function(detail) {
           console.log('page is ' + this.path);
@@ -50,7 +51,6 @@
   var getData = {
     search: function(val){
       var userQuery = document.getElementById('user-input-field').value.replace(/\s/g, '-');
-        console.log(userQuery);
         //makes sure api url has the right userquery and adds the value of the selected option
         var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ userQuery +'/&page=1&pagesize=25';
         var self = this;
@@ -62,23 +62,22 @@
             console.log('nothing available');
             sections.renderError();
           }
-          // console.log(data.Objects);
           console.log('search api is loaded');
           // this calls renderSearch and changes the html according to the applied filter
           sections.renderSearch(data);
           var obj = data.Objects;
           self.filterRooms(obj);
           self.filterPrice(obj);
+          el.load1.classList.add('hide');
         })
         .go()
   },
   detail: function() {
+    el.load1.classList.remove('hide');
       //makes sure api url has the right userquery and adds the value of the selected option
       var id = location.hash.slice(8);
-      console.log(id);
 
       var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/detail/' + _APIKEY + '/koop/'+ id;
-      console.log(apiUrl);
       var self = this;
       aja()
       .url(apiUrl)
@@ -92,6 +91,7 @@
     },
 
   suggest: function(data) {
+    el.load1.classList.remove('hide');
       var garden = '';
       if (data.tuin != 'null') {
         var garden = '/tuin'
@@ -101,14 +101,17 @@
       var detSpace = data.WoonOppervlakte;
       var detId = data.InternalId;
         //makes sure api url has the right userquery and adds the value of the selected option
-        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+5km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/' +'/&page=1&pagesize=6';
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+10km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/' +'/&page=1&pagesize=6';
         aja()
         .url(apiUrl)
         .on('success', function(sugData){
           //if the array is empty renderError
-          if(sugData.Objects.length === 0) {
+          console.log(sugData.Objects);
+          if(sugData.Objects.length === 1) {
             console.log('nothing available');
-            sections.renderError();
+            document.getElementById('suggest').classList.add('hide');
+          } else {
+            document.getElementById('suggest').classList.remove('hide');
           }
           console.log('search api is loaded');
 
@@ -124,7 +127,6 @@
   filterRooms: function(data){
     var self = this;
     el.rooms.addEventListener('change', function(){
-      console.log(this.value);
       var filterValue = this.value;
       function getFilters(check) {
           return check.AantalKamers > filterValue;
@@ -137,7 +139,6 @@
   filterPrice: function(data) {
     var self = this;
     el.price.addEventListener('change', function(){
-      console.log(this.value);
       var filterValue = this.value;
       function getFilters(check) {
         return check.Koopprijs < filterValue;
@@ -164,7 +165,6 @@
     },
     renderFilter: function(data) {
       el.load1.classList.add('hide');
-      console.log(data);
       var htmlCollection = '';
         data.map(function(fil) {
           htmlCollection += `
@@ -187,7 +187,7 @@
       el.error.innerHTML = errorHTML;
     },
     renderDetail: function(data) {
-      el.load1.classList.add('hide');
+      el.load2.classList.add('hide');
       //this is the script template in the html
       var source = document.getElementById('detailTemplate').innerHTML;
       var template = Handlebars.compile(source);
@@ -195,7 +195,7 @@
       el.details.innerHTML = htmlDetail;
     },
     renderSuggest: function(data) {
-      el.load1.classList.add('hide');
+      el.load3.classList.add('hide');
       var htmlCollection = '';
         data.map(function(fil) {
           htmlCollection += `
