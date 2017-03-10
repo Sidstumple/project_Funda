@@ -100,11 +100,30 @@
         var garden = '/tuin'
       }
       var self = this;
-      var detRooms = data.AantalKamers;
-      var detSpace = data.WoonOppervlakte;
+
+      var detSpace = data.Koopprijs;
       var detId = data.InternalId;
+
+      var filterValueRooms = el.rooms.value;
+      var filterValuePrice = el.price.value;
+
+      if (filterValueRooms == '') {
+        var rooms = data.AantalKamers;
+      } else {
+        console.log('filter rooms was used');
+        var rooms = el.rooms.value;
+      }
+
+      if (filterValuePrice == '') {
+        var price = '0-' + data.Koopprijs;
+      } else {
+        console.log('filter price was used');
+        var price = + '0-' + el.price.value ;
+      }
+
+
         //makes sure api url has the right userquery and adds the value of the selected option
-        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+10km' + garden + '/' + detRooms + '+kamers/' + detSpace + '+woonopp/' +'/&page=1&pagesize=6';
+        var apiUrl = 'http://funda.kyrandia.nl/feeds/Aanbod.svc/json/' + _APIKEY + '/?type=koop&zo=/'+ data.Plaats + '/' + data.Postcode + '/+10km' + garden + '/' + rooms + '+kamers/' + price +'/&page=1&pagesize=6';
         aja()
         .url(apiUrl)
         .on('success', function(sugData){

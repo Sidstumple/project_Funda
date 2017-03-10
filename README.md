@@ -14,10 +14,9 @@ As a funda user I want to get suggestions of houses I probably find interesting,
 * Searching on city name
 * Filtering on price and amount of rooms
 * Viewing detail item
-* Suggesting data based on detail item
+* Suggesting data based on detail item and chosen filters
 
 ## Wishlist:
-* Using the users' filter values for suggestions as well.
 * Adding more data from another API (demographic or safety data).
 * Saving the user actions to give better suggestions based on previous searches and applied filters.
 
